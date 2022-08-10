@@ -89,10 +89,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Assets\Images\" />
-    <Folder Include="Assets\jQuery\" />
-    <Folder Include="Assets\JS\" />
+    <Content Include="assets\1000.png" />
+    <Content Include="assets\200.png" />
+    <Content Include="assets\400.png" />
+    <Content Include="assets\600.png" />
+    <Content Include="assets\800.png" />
+    <Content Include="assets\blankBlue.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,13 +10,14 @@ namespace JTJeopardy.Utilities
     {
         string name = String.Empty;
 
-        Contestant(string _name)
+        public Contestant(string _name)
         {
             this.name = _name;
         }
 
-        int score = 0;
-        int getScore
+        // Player's score throughout the game
+        private int score = 0;
+        public int getScore
         {
             get
             {
