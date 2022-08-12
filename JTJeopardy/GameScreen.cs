@@ -18,7 +18,7 @@ namespace JTJeopardy
         public GameScreen()
         {
             // Suspends the GameScreen layout
-            this.SuspendLayout();
+            //this.SuspendLayout();
 
             // Sets the name of the GameScreen
             this.Name = "JTJeopardy";
@@ -27,10 +27,10 @@ namespace JTJeopardy
             this.DoubleBuffered = true;
 
             // When resized, draw everything again
-            this.ResizeRedraw = true;
+           // this.ResizeRedraw = true;
 
             // Resumes layout from suspension
-            this.ResumeLayout(false);
+            //this.ResumeLayout(false);
 
             // Continues with OOB Initialization
             this.InitializeComponent();
@@ -48,7 +48,7 @@ namespace JTJeopardy
             hostScreen.Show();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)
         {
             // Create New Instances of Players
 
@@ -63,9 +63,9 @@ namespace JTJeopardy
 
             // Load the First Round Class
             FirstRound roundOne = new FirstRound();
-            
-            // Change Alex's Game Screen
+            var data = roundOne.getTopics();
 
+            // Change Alex's Game Screen
         }
     }
 }

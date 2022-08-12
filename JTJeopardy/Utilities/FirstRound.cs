@@ -8,5 +8,9 @@ namespace JTJeopardy.Utilities
 {
     internal class FirstRound
     {
+        internal object getTopics()
+        {
+            
+        }
     }
 }
