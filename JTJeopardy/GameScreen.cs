@@ -13,59 +13,41 @@ namespace JTJeopardy
 {
     public partial class GameScreen : Form
     {
-        HostScreen hostScreen = null;
+        //HostScreen hostScreen = null;
 
         public GameScreen()
         {
-            // Suspends the GameScreen layout
-            //this.SuspendLayout();
+        }
+
+        public GameScreen(string c1, string c2, string c3) {
+
+            // Create New Instances for Contestants
+            Contestant contestant1 = new Contestant(c1);
+            Contestant contestant2 = new Contestant(c1);
+            Contestant contestant3 = new Contestant(c1);
 
             // Sets the name of the GameScreen
             this.Name = "JTJeopardy";
 
             // Minimizes "flicker" when resizing
             this.DoubleBuffered = true;
+             
+            // Whenever the screen resizes, redraw the Form
+            this.ResizeRedraw = true;
 
-            // When resized, draw everything again
-           // this.ResizeRedraw = true;
-
-            // Resumes layout from suspension
-            //this.ResumeLayout(false);
+            // Initial screen size to mathch the client's window
+            this.Width = Screen.PrimaryScreen.Bounds.Width;
+            this.Width = Screen.PrimaryScreen.Bounds.Height;
 
             // Continues with OOB Initialization
             this.InitializeComponent();
-
-            // Hide the Tabs in the Control
-            gameScreenTabControl.Appearance = TabAppearance.FlatButtons;
-            gameScreenTabControl.ItemSize = new Size(0, 1);
-            gameScreenTabControl.SizeMode = TabSizeMode.Fixed;
         }
 
         private void GameScreen_Load(object sender, EventArgs e)
         {
             // Load the Host Screen
-            hostScreen = new HostScreen();
-            hostScreen.Show();
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            // Create New Instances of Players
-
-            Contestant one = new Contestant(playerOne.Text);
-            Contestant two = new Contestant(playerTwo.Text);
-            Contestant three = new Contestant(playerThree.Text);
-
-            // Load the Game Background
-            gameScreenTabControl.SelectedTab = startGameTab;
-            this.Width = startGameTab.BackgroundImage.Width + 25;
-            this.Height = startGameTab.BackgroundImage.Height + 75;
-
-            // Load the First Round Class
-            FirstRound roundOne = new FirstRound();
-            var data = roundOne.getTopics();
-
-            // Change Alex's Game Screen
+            //hostScreen = new HostScreen();
+            //hostScreen.Show();
         }
     }
 }

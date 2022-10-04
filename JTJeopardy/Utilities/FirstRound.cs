@@ -10,7 +10,7 @@ namespace JTJeopardy.Utilities
     {
         internal object getTopics()
         {
-            
+            return null;
         }
     }
 }
