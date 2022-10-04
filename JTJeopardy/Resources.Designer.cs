@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace JTJeopardy.Properties {
+namespace JTJeopardy {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace JTJeopardy.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("JTJeopardy.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("JTJeopardy.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -65,7 +65,7 @@ namespace JTJeopardy.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap _1000Square {
             get {
-                object obj = ResourceManager.GetObject("1000Square", resourceCulture);
+                object obj = ResourceManager.GetObject("_1000Square", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -75,7 +75,7 @@ namespace JTJeopardy.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap _200Square {
             get {
-                object obj = ResourceManager.GetObject("200Square", resourceCulture);
+                object obj = ResourceManager.GetObject("_200Square", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -85,7 +85,7 @@ namespace JTJeopardy.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap _400Square {
             get {
-                object obj = ResourceManager.GetObject("400Square", resourceCulture);
+                object obj = ResourceManager.GetObject("_400Square", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -95,7 +95,7 @@ namespace JTJeopardy.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap _600Square {
             get {
-                object obj = ResourceManager.GetObject("600Square", resourceCulture);
+                object obj = ResourceManager.GetObject("_600Square", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -105,7 +105,7 @@ namespace JTJeopardy.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap _800Square {
             get {
-                object obj = ResourceManager.GetObject("800Square", resourceCulture);
+                object obj = ResourceManager.GetObject("_800Square", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -116,16 +116,6 @@ namespace JTJeopardy.Properties {
         internal static System.Drawing.Bitmap blankBlue {
             get {
                 object obj = ResourceManager.GetObject("blankBlue", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap gamebackground {
-            get {
-                object obj = ResourceManager.GetObject("gamebackground", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
