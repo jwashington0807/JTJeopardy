@@ -51,18 +51,26 @@ namespace JTJeopardy
 
         private void GameScreen_Load(object sender, EventArgs e)
         {
-            // Assign Question Blocks to Array
-            AssignSpaces();
+            try
+            {
+                bool start = false;
 
-            // Load The Board
-            LoadGameBoard();
+                // Assign Question Blocks to Array
+                AssignSpaces();
 
-            // Load the questions and assign them
+                // Load the questions and assign them
 
 
-            // Load the Host Screen
-            hostScreen = new HostScreen();
-            hostScreen.Show();
+                // Load the Host Screen
+                LoadHostScreen();
+
+                // Load The Board
+                LoadGameBoard();
+            }
+            catch(Exception ex)
+            {
+                string error = ex.ToString();
+            }
         }
 
         private void AssignSpaces()
@@ -93,6 +101,20 @@ namespace JTJeopardy
             }
         }
 
+        private async void LoadHostScreen()
+        {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+
+            hostScreen = new HostScreen();
+            hostScreen.Show();
+
+            await hostScreen.WaitForStart();
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine(elapsedMs.ToString());
+        }
+
         private void PrepareQuestion(int question)
         {
             int counter = 0;
@@ -105,7 +127,6 @@ namespace JTJeopardy
                     {
                         PictureBox pictureBox = questions[row, col] as PictureBox;
                         AssignValue(pictureBox, row, round);
-                        Thread.Sleep(50);
 
                         break;
                     }
