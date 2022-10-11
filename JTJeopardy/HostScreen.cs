@@ -17,7 +17,7 @@ namespace JTJeopardy
             InitializeComponent();
         }
 
-        public static string ShowDialog(string text, string caption)
+        public static bool ShowDialog(string text, string caption)
         {
             Form prompt = new Form()
             {
@@ -36,7 +36,7 @@ namespace JTJeopardy
             prompt.Controls.Add(textLabel);
             prompt.AcceptButton = confirmation;
 
-            return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
+            return prompt.ShowDialog() == DialogResult.OK ? true : false;
         }
 
         private void HostScreen_Load(object sender, EventArgs e)
@@ -44,15 +44,15 @@ namespace JTJeopardy
 
         }
 
-        public async Task WaitForStart()
+        public bool WaitForStart()
         {
-            var result = await DownloadImage();
+            return ShowPrompt();
         }
 
-        public static Task DownloadImage()
+        public bool ShowPrompt()
         {
-            string promptValue = ShowDialog("Test", "123");
-            return promptValue;
+            bool promptValue = ShowDialog("Test", "123");
+            return true;
         }
     }
 }

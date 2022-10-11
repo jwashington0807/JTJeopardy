@@ -12,13 +12,22 @@ using System.Windows.Forms;
 
 namespace JTJeopardy
 {
+    struct QandAs
+    {
+        public string question;
+        public string answer;
+        public int row;
+        public int col;
+        public int value;
+    }
+
     public partial class GameScreen : Form
     {
         const int boardQuestions = 30;
-        HostScreen hostScreen = null;
         Control[,] questions = new Control[6, 6];
-
+        HostScreen hostScreen = null;
         int round = 1;
+        QandAs data;
 
         public GameScreen()
         {
@@ -26,6 +35,8 @@ namespace JTJeopardy
 
         public GameScreen(string c1, string c2, string c3)
         {
+            // Create new instance for struct
+            data = new QandAs();
 
             // Create New Instances for Contestants
             Contestant contestant1 = new Contestant(c1);
@@ -47,25 +58,29 @@ namespace JTJeopardy
 
             // Continues with OOB Initialization
             this.InitializeComponent();
+
+            // Assign Question Blocks to Array
+            AssignSpaces();
+
+            // Load the Host Screen
+            LoadHostScreen();
+        }
+
+        private void LoadAnswers(int row, int col)
+        {
+            data.
+
+            data.answer = "The best person in the world";
+            data.question = "Who is JT?";
+            data.row = row;
+            data.col = col;
         }
 
         private void GameScreen_Load(object sender, EventArgs e)
         {
             try
             {
-                bool start = false;
-
-                // Assign Question Blocks to Array
-                AssignSpaces();
-
-                // Load the questions and assign them
-
-
-                // Load the Host Screen
-                LoadHostScreen();
-
-                // Load The Board
-                LoadGameBoard();
+             
             }
             catch(Exception ex)
             {
@@ -83,6 +98,10 @@ namespace JTJeopardy
                 {
                     Control control = this.Controls.Find("question" + counter.ToString(), true).FirstOrDefault();
                     questions[row, col] = control;
+
+                    // Load the questions and assign them
+                    LoadAnswers(row, col);
+
                     counter++;
                 }
             }
@@ -98,6 +117,8 @@ namespace JTJeopardy
                 questionLocations.Remove(r);
 
                 PrepareQuestion(r);
+                this.Refresh();
+                Thread.Sleep(10);
             }
         }
 
@@ -108,11 +129,19 @@ namespace JTJeopardy
             hostScreen = new HostScreen();
             hostScreen.Show();
 
-            await hostScreen.WaitForStart();
+            bool answer = await Task.Run(() => hostScreen.WaitForStart());
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Console.WriteLine(elapsedMs.ToString());
+
+            if (answer)
+            {
+                //Continue
+
+                // Load The Board
+                LoadGameBoard();
+            }
         }
 
         private void PrepareQuestion(int question)
@@ -126,6 +155,7 @@ namespace JTJeopardy
                     if (counter == question)
                     {
                         PictureBox pictureBox = questions[row, col] as PictureBox;
+                        pictureBox.Click += new EventHandler(AnswerClick);
                         AssignValue(pictureBox, row, round);
 
                         break;
@@ -134,6 +164,17 @@ namespace JTJeopardy
                     {
                         counter++;
                     }
+                }
+            }
+        }
+
+        void AnswerClick(object sender, EventArgs e)
+        {
+            if (sender is PictureBox)
+            {
+                using (PictureBox box = (PictureBox)sender)
+                {
+                    var damageResult = await Task.Run(() => CalculateDamageDone());
                 }
             }
         }
