@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Resources;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace JTJeopardy.Utilities
 {
-    internal static class ResourceHelper
+    public static class ResourceHelper
     {
         public static Image getImage(int i)
         {

@@ -1,5 +1,4 @@
-﻿using JTJeopardy.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,42 +8,33 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using JTJeopardy.Utilities;
 
 namespace JTJeopardy
 {
-    struct QandAs
-    {
-        public string question;
-        public string answer;
-        public int row;
-        public int col;
-        public int value;
-    }
 
     public partial class GameScreen : Form
     {
+        #region Global Variables
+
         const int boardQuestions = 30;
         Control[,] questions = new Control[6, 6];
+        MainMenu mainScreen = null;
         HostScreen hostScreen = null;
-        int round = 1;
-        QandAs data;
+        DataMethods dataMethods = new DataMethods();
+        Contestant contestant = null;
 
+        int round = 1;
+        #endregion
+
+        #region Class Methods
         public GameScreen()
         {
-        }
-
-        public GameScreen(string c1, string c2, string c3)
-        {
-            // Create new instance for struct
-            data = new QandAs();
-
-            // Create New Instances for Contestants
-            Contestant contestant1 = new Contestant(c1);
-            Contestant contestant2 = new Contestant(c1);
-            Contestant contestant3 = new Contestant(c1);
+            // Load the Main Screen
+            LoadMainScreen();
 
             // Sets the name of the GameScreen
-            this.Name = "JTJeopardy";
+            this.Name = "JT Jeopardy";
 
             // Minimizes "flicker" when resizing
             this.DoubleBuffered = true;
@@ -54,7 +44,7 @@ namespace JTJeopardy
 
             // Initial screen size to mathch the client's window
             this.Width = Screen.PrimaryScreen.Bounds.Width;
-            this.Width = Screen.PrimaryScreen.Bounds.Height;
+            this.Height = Screen.PrimaryScreen.Bounds.Height;
 
             // Continues with OOB Initialization
             this.InitializeComponent();
@@ -65,17 +55,6 @@ namespace JTJeopardy
             // Load the Host Screen
             LoadHostScreen();
         }
-
-        private void LoadAnswers(int row, int col)
-        {
-            data.
-
-            data.answer = "The best person in the world";
-            data.question = "Who is JT?";
-            data.row = row;
-            data.col = col;
-        }
-
         private void GameScreen_Load(object sender, EventArgs e)
         {
             try
@@ -88,6 +67,59 @@ namespace JTJeopardy
             }
         }
 
+        #endregion
+
+        #region Loading Methods
+        private void LoadMainScreen()
+        {
+            mainScreen = new MainMenu();
+            mainScreen.Show();
+        }
+
+        private async void LoadHostScreen()
+        {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+
+            hostScreen = new HostScreen();
+            hostScreen.Show();
+
+            bool answer = await Task.Run(() => hostScreen.WaitForStart());
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine(elapsedMs.ToString());
+
+            if (answer)
+            {
+                // Load The Board
+                LoadGameBoard();
+            }
+        }
+
+        private void PrepareQuestion(int question)
+        {
+            int counter = 0;
+
+            for (int col = 0; col < 6; col++)
+            {
+                for (int row = 1; row <= 5; row++)
+                {
+                    if (counter == question)
+                    {
+                        PictureBox pictureBox = questions[row, col] as PictureBox;
+                        pictureBox.Click += new EventHandler((sender, e) => AnswerClick(sender, e, row, col));
+                        AssignValue(pictureBox, row, round);
+
+                        return;
+                    }
+                    else
+                    {
+                        counter++;
+                    }
+                }
+            }
+        }
+
         private void AssignSpaces()
         {
             int counter = 1;
@@ -96,11 +128,11 @@ namespace JTJeopardy
             {
                 for (int row = 1; row <= 5; row++)
                 {
-                    Control control = this.Controls.Find("question" + counter.ToString(), true).FirstOrDefault();
+                    Control control = Controls.Find("question" + counter.ToString(), true).FirstOrDefault();
                     questions[row, col] = control;
 
                     // Load the questions and assign them
-                    LoadAnswers(row, col);
+                    dataMethods.LoadAnswers(row, col);
 
                     counter++;
                 }
@@ -121,67 +153,38 @@ namespace JTJeopardy
                 Thread.Sleep(10);
             }
         }
+        #endregion
 
-        private async void LoadHostScreen()
-        {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
+        #region Event Trigger Methods
 
-            hostScreen = new HostScreen();
-            hostScreen.Show();
-
-            bool answer = await Task.Run(() => hostScreen.WaitForStart());
-
-            watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
-            Console.WriteLine(elapsedMs.ToString());
-
-            if (answer)
-            {
-                //Continue
-
-                // Load The Board
-                LoadGameBoard();
-            }
-        }
-
-        private void PrepareQuestion(int question)
-        {
-            int counter = 0;
-
-            for (int col = 0; col < 6; col++)
-            {
-                for (int row = 1; row <= 5; row++)
-                {
-                    if (counter == question)
-                    {
-                        PictureBox pictureBox = questions[row, col] as PictureBox;
-                        pictureBox.Click += new EventHandler(AnswerClick);
-                        AssignValue(pictureBox, row, round);
-
-                        break;
-                    }
-                    else
-                    {
-                        counter++;
-                    }
-                }
-            }
-        }
-
-        void AnswerClick(object sender, EventArgs e)
+        void AnswerClick(object sender, EventArgs e, int row, int col)
         {
             if (sender is PictureBox)
             {
                 using (PictureBox box = (PictureBox)sender)
                 {
-                    var damageResult = await Task.Run(() => CalculateDamageDone());
+                    dataMethods.PrepareToSendToAlex(row, col, hostScreen);
                 }
             }
         }
 
+        #endregion
+
+        #region Helper Methods
         private void AssignValue(PictureBox pictureBox, int row, int round)
         {
             pictureBox.Image = ResourceHelper.getImage(row);
         }
+
+        #endregion
+
+        #region Data Methods
+
+        public void createContestants(string text1, string text2, string text3)
+        {
+            contestant = new Contestant(text1, text2, text3);
+        }
+
+        #endregion
     }
 }
