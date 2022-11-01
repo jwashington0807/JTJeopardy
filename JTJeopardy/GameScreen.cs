@@ -12,29 +12,40 @@ using JTJeopardy.Utilities;
 
 namespace JTJeopardy
 {
+    public struct QandAs
+    {
+        public string question;
+        public string answer;
+        public int row;
+        public int col;
+        public int value;
+    }
 
     public partial class GameScreen : Form
     {
         #region Global Variables
 
-        const int boardQuestions = 30;
         Control[,] questions = new Control[6, 6];
         MainMenu mainScreen = null;
         HostScreen hostScreen = null;
-        DataMethods dataMethods = new DataMethods();
-        Contestant contestant = null;
+        List<QandAs> dataBank = new List<QandAs>();
+        GameSettings settings = new GameSettings();
+        System.Windows.Forms.Timer picTimer = null;
+        int counter = 0;
 
-        int round = 1;
         #endregion
 
         #region Class Methods
         public GameScreen()
         {
+            // Load the Host Screen
+            LoadHostScreen();
+
             // Load the Main Screen
             LoadMainScreen();
 
             // Sets the name of the GameScreen
-            this.Name = "JT Jeopardy";
+            this.Name = settings.title;
 
             // Minimizes "flicker" when resizing
             this.DoubleBuffered = true;
@@ -51,15 +62,20 @@ namespace JTJeopardy
 
             // Assign Question Blocks to Array
             AssignSpaces();
-
-            // Load the Host Screen
-            LoadHostScreen();
         }
+
+        internal void SetContestants(string text1, string text2, string text3)
+        {
+            Contestant.contestantOne = text1;
+            Contestant.contestantTwo = text2;  
+            Contestant.contestantThree = text3;
+        }
+
         private void GameScreen_Load(object sender, EventArgs e)
         {
             try
             {
-             
+                tableLayoutPanel1.SendToBack();
             }
             catch(Exception ex)
             {
@@ -70,30 +86,133 @@ namespace JTJeopardy
         #endregion
 
         #region Loading Methods
+
         private void LoadMainScreen()
         {
-            mainScreen = new MainMenu();
+            mainScreen = new MainMenu(this);
             mainScreen.Show();
         }
 
-        private async void LoadHostScreen()
+        private void LoadHostScreen()
         {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-
-            hostScreen = new HostScreen();
+            hostScreen = new HostScreen(this);
             hostScreen.Show();
+        }
 
-            bool answer = await Task.Run(() => hostScreen.WaitForStart());
 
-            watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
-            Console.WriteLine(elapsedMs.ToString());
+        #endregion
 
-            if (answer)
+        #region Event Trigger Methods
+
+        void AnswerClick(object sender, EventArgs e, int row, int col)
+        {
+            if (sender is PictureBox)
             {
-                // Load The Board
-                LoadGameBoard();
+                // Get PictureBox and Set to Blank
+                PictureBox pictureBox = sender as PictureBox;
+                pictureBox.Image = ResourceHelper.getImage(0);
+
+                // Get Data for Answer
+                QandAs retrieveData = PrepareToSendToAlex(row, col, hostScreen);
+
+                // Add a duplicate to expand
+                PictureBox pictureBoxDup = new PictureBox();
+                pictureBoxDup.Image = ResourceHelper.getImage(0);
+                pictureBoxDup.Width = pictureBox.Width;
+                pictureBoxDup.Height = pictureBox.Height;
+                pictureBoxDup.SizeMode = PictureBoxSizeMode.StretchImage;
+
+                // Draw the Text onto PictureBox Duplicate
+                using (Graphics g = Graphics.FromImage(pictureBoxDup.Image))
+                {
+                    Rectangle rec = new Rectangle(0, 0, pictureBoxDup.Width, pictureBoxDup.Height);
+                    g.DrawString(retrieveData.answer, new Font("Arial", 20), Brushes.White, rec);
+                }
+
+                // Add New Control
+                this.Controls.Add(pictureBoxDup);
+                pictureBoxDup.Location = pictureBox.Location;
+                pictureBoxDup.BringToFront();
+
+                // Force Redraw of PictureBox
+                pictureBoxDup.Invalidate();
+
+                // Expand Control
+                picTimer = new System.Windows.Forms.Timer();
+                picTimer.Tick += new EventHandler((sen, x) => PicTimer_Tick(pictureBoxDup));
+                picTimer.Interval = 5;
+                picTimer.Start();
             }
+        }
+
+        private void PicTimer_Tick(PictureBox pictureBoxDup)
+        {
+            if(counter != 20)
+            {
+                // Get Width and Height of Form
+                int fWidth = this.Width;
+                int fHeight = this.Height;
+
+                //pictureBoxDup.Location = new Point(this.Location.X - pictureBoxDup.Size.Width / 2, this.Location.Y - pictureBoxDup.Size.Height/2);
+                pictureBoxDup.Size = new Size(pictureBoxDup.Size.Width + ((this.Width - pictureBoxDup.Size.Width) / 20), pictureBoxDup.Size.Height + ((this.Height - pictureBoxDup.Size.Height) / 20));
+                counter++;
+            }
+            else
+            {
+                picTimer.Stop();
+                counter = 0;
+            }
+        }
+
+        internal async void PhaseOneBegin()
+        {
+            await Task.Run(() => hostScreen.WaitForStart());
+
+            LoadGameBoard();
+        } 
+
+        #endregion
+
+        #region Helper Methods
+
+        private void AssignValue(PictureBox pictureBox, int row, int round)
+        {
+            pictureBox.Image = ResourceHelper.getImage(row);
+        }
+
+        #endregion
+
+        #region Data Methods
+
+        private QandAs findSelectionData(int row, int col)
+        {
+            var matchedObject =
+                   (from t in dataBank
+                    where t.row == row && t.col == col
+                    select t).FirstOrDefault();
+
+            return matchedObject;
+        }
+
+        internal QandAs PrepareToSendToAlex(int row, int col, HostScreen screen)
+        {
+            QandAs result = findSelectionData(row, col);
+            //var questionResult = await Task.Run(() => screen.DataToAlex(result.answer, result.question));
+
+            return result;
+        }
+
+        public void LoadAnswers(int row, int col)
+        {
+            // Create new instance for struct
+            QandAs data = new QandAs();
+
+            data.answer = "row = " + row.ToString() + " : col = " + col.ToString();
+            data.question = "Who is JT?";
+            data.row = row;
+            data.col = col;
+
+            dataBank.Add(data);
         }
 
         private void PrepareQuestion(int question)
@@ -108,7 +227,7 @@ namespace JTJeopardy
                     {
                         PictureBox pictureBox = questions[row, col] as PictureBox;
                         pictureBox.Click += new EventHandler((sender, e) => AnswerClick(sender, e, row, col));
-                        AssignValue(pictureBox, row, round);
+                        AssignValue(pictureBox, row, settings.round);
 
                         return;
                     }
@@ -132,7 +251,7 @@ namespace JTJeopardy
                     questions[row, col] = control;
 
                     // Load the questions and assign them
-                    dataMethods.LoadAnswers(row, col);
+                    LoadAnswers(row, col);
 
                     counter++;
                 }
@@ -143,7 +262,7 @@ namespace JTJeopardy
         {
             List<int> questionLocations = Enumerable.Range(0, 30).ToList();
 
-            for (int i = 0; i < boardQuestions; i++)
+            for (int i = 0; i < settings.boardQuestions; i++)
             {
                 int r = questionLocations.OrderBy(bn => Guid.NewGuid()).FirstOrDefault();
                 questionLocations.Remove(r);
@@ -152,37 +271,6 @@ namespace JTJeopardy
                 this.Refresh();
                 Thread.Sleep(10);
             }
-        }
-        #endregion
-
-        #region Event Trigger Methods
-
-        void AnswerClick(object sender, EventArgs e, int row, int col)
-        {
-            if (sender is PictureBox)
-            {
-                using (PictureBox box = (PictureBox)sender)
-                {
-                    dataMethods.PrepareToSendToAlex(row, col, hostScreen);
-                }
-            }
-        }
-
-        #endregion
-
-        #region Helper Methods
-        private void AssignValue(PictureBox pictureBox, int row, int round)
-        {
-            pictureBox.Image = ResourceHelper.getImage(row);
-        }
-
-        #endregion
-
-        #region Data Methods
-
-        public void createContestants(string text1, string text2, string text3)
-        {
-            contestant = new Contestant(text1, text2, text3);
         }
 
         #endregion

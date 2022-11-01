@@ -9,9 +9,12 @@ namespace JTJeopardy.Utilities
 {
     public static class ResourceHelper
     {
+
         public static Image getImage(int i)
         {
-            if (i == 1)
+            if (i == 0)
+                return Resources.blankBlue;
+            else if (i == 1)
                 return Resources._200Square;
             else if (i == 2)
                 return Resources._400Square;

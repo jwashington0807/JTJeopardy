@@ -71,8 +71,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\Awaiter.cs" />
     <Compile Include="Utilities\Contestant.cs" />
-    <Compile Include="Utilities\DataMethods.cs" />
+    <Compile Include="Utilities\GameSettings.cs" />
     <Compile Include="Utilities\ResourceHelper.cs" />
     <EmbeddedResource Include="GameScreen.resx">
       <DependentUpon>GameScreen.cs</DependentUpon>
@@ -112,6 +113,7 @@
     <Content Include="assets\blankBlue.png" />
     <Content Include="assets\blueSquare.png" />
     <Content Include="assets\gamebackground.png" />
+    <Content Include="assets\StartButton.png" />
     <Content Include="assets\waitingIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

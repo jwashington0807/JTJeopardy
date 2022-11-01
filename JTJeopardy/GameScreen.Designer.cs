@@ -32,7 +32,6 @@
             this.question15 = new System.Windows.Forms.PictureBox();
             this.question5 = new System.Windows.Forms.PictureBox();
             this.question10 = new System.Windows.Forms.PictureBox();
-            this.question20 = new System.Windows.Forms.PictureBox();
             this.topic1 = new System.Windows.Forms.PictureBox();
             this.question27 = new System.Windows.Forms.PictureBox();
             this.question22 = new System.Windows.Forms.PictureBox();
@@ -65,6 +64,7 @@
             this.question30 = new System.Windows.Forms.PictureBox();
             this.question25 = new System.Windows.Forms.PictureBox();
             this.topic4 = new System.Windows.Forms.PictureBox();
+            this.question20 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -76,7 +76,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.question15)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.question5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.question10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.question20)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.topic1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.question27)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.question22)).BeginInit();
@@ -109,6 +108,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.question30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.question25)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.topic4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.question20)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -209,18 +209,6 @@
             this.question10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.question10.TabIndex = 33;
             this.question10.TabStop = false;
-            // 
-            // question20
-            // 
-            this.question20.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.question20.BackgroundImage = global::JTJeopardy.Resources.blankBlue;
-            this.question20.Location = new System.Drawing.Point(1119, 844);
-            this.question20.Name = "question20";
-            this.question20.Padding = new System.Windows.Forms.Padding(10);
-            this.question20.Size = new System.Drawing.Size(366, 142);
-            this.question20.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.question20.TabIndex = 30;
-            this.question20.TabStop = false;
             // 
             // topic1
             // 
@@ -606,6 +594,18 @@
             this.topic4.TabIndex = 24;
             this.topic4.TabStop = false;
             // 
+            // question20
+            // 
+            this.question20.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.question20.BackgroundImage = global::JTJeopardy.Resources.blankBlue;
+            this.question20.Location = new System.Drawing.Point(1119, 844);
+            this.question20.Name = "question20";
+            this.question20.Padding = new System.Windows.Forms.Padding(10);
+            this.question20.Size = new System.Drawing.Size(366, 142);
+            this.question20.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.question20.TabIndex = 30;
+            this.question20.TabStop = false;
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -635,9 +635,9 @@
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(355, 104);
+            this.label6.Location = new System.Drawing.Point(347, 101);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 13);
+            this.label6.Size = new System.Drawing.Size(51, 20);
             this.label6.TabIndex = 5;
             this.label6.Text = "label6";
             // 
@@ -645,9 +645,9 @@
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(1100, 104);
+            this.label5.Location = new System.Drawing.Point(1092, 101);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(35, 13);
+            this.label5.Size = new System.Drawing.Size(51, 20);
             this.label5.TabIndex = 4;
             this.label5.Text = "label5";
             // 
@@ -655,9 +655,9 @@
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1845, 104);
+            this.label4.Location = new System.Drawing.Point(1837, 101);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.Size = new System.Drawing.Size(51, 20);
             this.label4.TabIndex = 3;
             this.label4.Text = "label4";
             // 
@@ -665,9 +665,9 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(355, 30);
+            this.label1.Location = new System.Drawing.Point(347, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.Size = new System.Drawing.Size(51, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "label1";
             // 
@@ -675,9 +675,9 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(1100, 30);
+            this.label2.Location = new System.Drawing.Point(1092, 27);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.Size = new System.Drawing.Size(51, 20);
             this.label2.TabIndex = 1;
             this.label2.Text = "label2";
             // 
@@ -685,9 +685,9 @@
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(1845, 30);
+            this.label3.Location = new System.Drawing.Point(1837, 27);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.Size = new System.Drawing.Size(51, 20);
             this.label3.TabIndex = 2;
             this.label3.Text = "label3";
             // 
@@ -705,7 +705,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.question15)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.question5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.question10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.question20)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.topic1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.question27)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.question22)).EndInit();
@@ -738,6 +737,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.question30)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.question25)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.topic4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.question20)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);

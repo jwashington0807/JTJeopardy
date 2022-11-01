@@ -6,113 +6,31 @@ using System.Threading.Tasks;
 
 namespace JTJeopardy.Utilities
 {
-    internal class Contestant
+    internal static class Contestant
     {
+        public static string contestantOne = String.Empty;
+        public static string contestantTwo = String.Empty;
+        public static string contestantThree = String.Empty;
 
-        public Contestant(string _one, string _two, string _three)
+        private static int contestantOneScore = 0;
+        public static int _contestantOneScore
         {
-            getOneName = _one;
-            getTwoName = _two;
-            getThreeName = _three;
+            get { return contestantOneScore; }
+            set { contestantOneScore = value; }
         }
 
-        #region Player One
-        // Player One's score throughout the game
-        private int scoreOne = 0;
-        public int getScoreOne
+        private static int contestantTwoScore = 0;
+        public static int _contestantTwoScore
         {
-            get
-            {
-                return scoreOne;
-            }
-
-            set
-            {
-                this.scoreOne = value;
-            }
+            get { return contestantTwoScore; }
+            set { contestantTwoScore = value; }
         }
 
-        // Player One's name throughout the game
-        string oneName = String.Empty;
-        public string getOneName
+        private static int contestantThreeScore = 0;
+        public static int _contestantThreeScore
         {
-            get
-            {
-                return oneName;
-            }
-
-            set
-            {
-                this.oneName = value;
-            }
+            get { return contestantThreeScore; }
+            set { contestantThreeScore = value; }
         }
-
-        #endregion
-
-        #region Player Two
-        // Player Two's score throughout the game
-        private int scoreTwo = 0;
-        public int getScoreTwo
-        {
-            get
-            {
-                return scoreTwo;
-            }
-
-            set
-            {
-                this.scoreTwo = value;
-            }
-        }
-
-        // Player Two's name throughout the game
-        string twoName = String.Empty;
-        public string getTwoName
-        {
-            get
-            {
-                return twoName;
-            }
-
-            set
-            {
-                this.twoName = value;
-            }
-        }
-
-        #endregion
-
-        #region Player Three
-        // Player Three's score throughout the game
-        private int scoreThree = 0;
-        public int getScoreThree
-        {
-            get
-            {
-                return scoreThree;
-            }
-
-            set
-            {
-                this.scoreThree = value;
-            }
-        }
-
-        // Player Three's name throughout the game
-        string threeName = String.Empty;
-        public string getThreeName
-        {
-            get
-            {
-                return threeName;
-            }
-
-            set
-            {
-                this.threeName = value;
-            }
-        }
-
-        #endregion
     }
 }

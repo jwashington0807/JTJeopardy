@@ -14,13 +14,18 @@ namespace JTJeopardy
 {
     public partial class MainMenu : Form
     {
-        public MainMenu()
+        GameScreen _gameScreen;
+
+        public MainMenu(GameScreen gameScreen)
         {
             // Minimizes "flicker" when resizing
             this.DoubleBuffered = true;
 
             // Continues with OOB Initialization
             this.InitializeComponent();
+
+            // Get the instance of the GameScreen
+            _gameScreen = gameScreen;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -29,10 +34,14 @@ namespace JTJeopardy
             bool validation = false;
 
             //Enter Validation 
+            
 
             if (!validation)
             {
-                new GameScreen().createContestants(textBox1.Text, textBox2.Text, textBox3.Text);
+                _gameScreen.SetContestants(textBox1.Text, textBox2.Text, textBox3.Text);
+                _gameScreen.PhaseOneBegin();
+
+                this.Dispose();
             }
             else
             {
