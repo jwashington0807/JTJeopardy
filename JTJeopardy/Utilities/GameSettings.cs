@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace JTJeopardy.Utilities
 {
-    public class GameSettings
+    public static class GameSettings
     {
-        public int boardQuestions = 30;
-        public int round = 1;
-        public string title = "JT Jeopardy";
+        public static int boardQuestions = 30;
+        public static int round = 1;
+        public static string title = "JT Jeopardy";
     }
 }

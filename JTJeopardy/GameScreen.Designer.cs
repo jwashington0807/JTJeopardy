@@ -66,12 +66,12 @@
             this.topic4 = new System.Windows.Forms.PictureBox();
             this.question20 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblContestantOneScore = new System.Windows.Forms.Label();
+            this.lblContestantTwoScore = new System.Windows.Forms.Label();
+            this.lblContestantThreeScore = new System.Windows.Forms.Label();
+            this.lblContestantOne = new System.Windows.Forms.Label();
+            this.lblContestantTwo = new System.Windows.Forms.Label();
+            this.lblContestantThree = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.question15)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.question5)).BeginInit();
@@ -615,12 +615,12 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.tableLayoutPanel2.Controls.Add(this.label6, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.label5, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.label4, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label2, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label3, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.lblContestantOneScore, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.lblContestantTwoScore, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.lblContestantThreeScore, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.lblContestantOne, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.lblContestantTwo, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.lblContestantThree, 2, 0);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(12, 1018);
             this.tableLayoutPanel2.MaximumSize = new System.Drawing.Size(2500, 300);
             this.tableLayoutPanel2.MinimumSize = new System.Drawing.Size(800, 100);
@@ -631,65 +631,71 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(2236, 148);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
-            // label6
+            // lblContestantOneScore
             // 
-            this.label6.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(347, 101);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(51, 20);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "label6";
+            this.lblContestantOneScore.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblContestantOneScore.AutoSize = true;
+            this.lblContestantOneScore.Location = new System.Drawing.Point(285, 101);
+            this.lblContestantOneScore.Name = "lblContestantOneScore";
+            this.lblContestantOneScore.Size = new System.Drawing.Size(175, 20);
+            this.lblContestantOneScore.TabIndex = 5;
+            this.lblContestantOneScore.Text = "lblContestantOneScore";
+            this.lblContestantOneScore.Paint += new System.Windows.Forms.PaintEventHandler(this.lblContestantOneScore_Paint);
             // 
-            // label5
+            // lblContestantTwoScore
             // 
-            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(1092, 101);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(51, 20);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "label5";
+            this.lblContestantTwoScore.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblContestantTwoScore.AutoSize = true;
+            this.lblContestantTwoScore.Location = new System.Drawing.Point(1030, 101);
+            this.lblContestantTwoScore.Name = "lblContestantTwoScore";
+            this.lblContestantTwoScore.Size = new System.Drawing.Size(174, 20);
+            this.lblContestantTwoScore.TabIndex = 4;
+            this.lblContestantTwoScore.Text = "lblContestantTwoScore";
+            this.lblContestantTwoScore.Paint += new System.Windows.Forms.PaintEventHandler(this.lblContestantTwoScore_Paint);
             // 
-            // label4
+            // lblContestantThreeScore
             // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1837, 101);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(51, 20);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "label4";
+            this.lblContestantThreeScore.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblContestantThreeScore.AutoSize = true;
+            this.lblContestantThreeScore.Location = new System.Drawing.Point(1770, 101);
+            this.lblContestantThreeScore.Name = "lblContestantThreeScore";
+            this.lblContestantThreeScore.Size = new System.Drawing.Size(186, 20);
+            this.lblContestantThreeScore.TabIndex = 3;
+            this.lblContestantThreeScore.Text = "lblContestantThreeScore";
+            this.lblContestantThreeScore.Paint += new System.Windows.Forms.PaintEventHandler(this.lblContestantThreeScore_Paint);
             // 
-            // label1
+            // lblContestantOne
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(347, 27);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 20);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
+            this.lblContestantOne.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblContestantOne.AutoSize = true;
+            this.lblContestantOne.Location = new System.Drawing.Point(306, 27);
+            this.lblContestantOne.Name = "lblContestantOne";
+            this.lblContestantOne.Size = new System.Drawing.Size(133, 20);
+            this.lblContestantOne.TabIndex = 0;
+            this.lblContestantOne.Text = "lblContestantOne";
+            this.lblContestantOne.Paint += new System.Windows.Forms.PaintEventHandler(this.lblContestantOne_Paint);
             // 
-            // label2
+            // lblContestantTwo
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(1092, 27);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(51, 20);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "label2";
+            this.lblContestantTwo.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblContestantTwo.AutoSize = true;
+            this.lblContestantTwo.Location = new System.Drawing.Point(1051, 27);
+            this.lblContestantTwo.Name = "lblContestantTwo";
+            this.lblContestantTwo.Size = new System.Drawing.Size(132, 20);
+            this.lblContestantTwo.TabIndex = 1;
+            this.lblContestantTwo.Text = "lblContestantTwo";
+            this.lblContestantTwo.Paint += new System.Windows.Forms.PaintEventHandler(this.lblContestantTwo_Paint);
             // 
-            // label3
+            // lblContestantThree
             // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(1837, 27);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 20);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "label3";
+            this.lblContestantThree.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblContestantThree.AutoSize = true;
+            this.lblContestantThree.Location = new System.Drawing.Point(1791, 27);
+            this.lblContestantThree.Name = "lblContestantThree";
+            this.lblContestantThree.Size = new System.Drawing.Size(144, 20);
+            this.lblContestantThree.TabIndex = 2;
+            this.lblContestantThree.Text = "lblContestantThree";
+            this.lblContestantThree.Paint += new System.Windows.Forms.PaintEventHandler(this.lblContestantThree_Paint);
             // 
             // GameScreen
             // 
@@ -784,12 +790,12 @@
         private System.Windows.Forms.PictureBox question30;
         private System.Windows.Forms.PictureBox question25;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblContestantOne;
+        private System.Windows.Forms.Label lblContestantOneScore;
+        private System.Windows.Forms.Label lblContestantTwoScore;
+        private System.Windows.Forms.Label lblContestantThreeScore;
+        private System.Windows.Forms.Label lblContestantTwo;
+        private System.Windows.Forms.Label lblContestantThree;
     }
 }
 

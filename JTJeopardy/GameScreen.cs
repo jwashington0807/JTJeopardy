@@ -29,7 +29,6 @@ namespace JTJeopardy
         MainMenu mainScreen = null;
         HostScreen hostScreen = null;
         List<QandAs> dataBank = new List<QandAs>();
-        GameSettings settings = new GameSettings();
         System.Windows.Forms.Timer picTimer = null;
         int counter = 0;
 
@@ -45,7 +44,7 @@ namespace JTJeopardy
             LoadMainScreen();
 
             // Sets the name of the GameScreen
-            this.Name = settings.title;
+            this.Name = GameSettings.title;
 
             // Minimizes "flicker" when resizing
             this.DoubleBuffered = true;
@@ -66,15 +65,23 @@ namespace JTJeopardy
 
         internal void SetContestants(string text1, string text2, string text3)
         {
-            Contestant.contestantOne = text1;
-            Contestant.contestantTwo = text2;  
-            Contestant.contestantThree = text3;
+            Contestant._contestantOne = text1;
+            Contestant._contestantTwo = text2;  
+            Contestant._contestantThree = text3;
+
+            lblContestantOne.Text = Contestant._contestantOne;
+            lblContestantTwo.Text = Contestant._contestantTwo;
+            lblContestantThree.Text = Contestant._contestantThree;
         }
 
         private void GameScreen_Load(object sender, EventArgs e)
         {
             try
             {
+                lblContestantOneScore.Text = Contestant._contestantOneScore.ToString();
+                lblContestantTwoScore.Text = Contestant._contestantTwoScore.ToString();
+                lblContestantThreeScore.Text = Contestant._contestantThreeScore.ToString();
+
                 tableLayoutPanel1.SendToBack();
             }
             catch(Exception ex)
@@ -104,13 +111,18 @@ namespace JTJeopardy
 
         #region Event Trigger Methods
 
-        void AnswerClick(object sender, EventArgs e, int row, int col)
+        async void AnswerClick(object sender, EventArgs e, int row, int col)
         {
+            bool correct = false;
+
             if (sender is PictureBox)
             {
                 // Get PictureBox and Set to Blank
                 PictureBox pictureBox = sender as PictureBox;
                 pictureBox.Image = ResourceHelper.getImage(0);
+
+                // Disable selected answer
+                pictureBox.Enabled = false;
 
                 // Get Data for Answer
                 QandAs retrieveData = PrepareToSendToAlex(row, col, hostScreen);
@@ -142,19 +154,63 @@ namespace JTJeopardy
                 picTimer.Tick += new EventHandler((sen, x) => PicTimer_Tick(pictureBoxDup));
                 picTimer.Interval = 5;
                 picTimer.Start();
+
+                while (!correct)
+                {
+                    // Wait for Alex's Response
+                    var response = await Task.Run(() => hostScreen.DataToAlexAsync(retrieveData.answer, retrieveData.question));
+
+                    if (response.correct)
+                    {
+                        correct = true;
+
+                        if (response.player == ResourceHelper.Chosen.ONE)
+                        {
+                            Contestant._contestantOneScore = Contestant._contestantOneScore + retrieveData.value;
+                            lblContestantOneScore.Invalidate();
+                        }
+                        else if (response.player == ResourceHelper.Chosen.TWO)
+                        {
+                            Contestant._contestantTwoScore = Contestant._contestantTwoScore + retrieveData.value;
+                            lblContestantTwoScore.Invalidate();
+                        }
+                        else
+                        {
+                            Contestant._contestantThreeScore = Contestant._contestantThreeScore + retrieveData.value;
+                            lblContestantThreeScore.Invalidate();
+                        }
+                    }
+                    else
+                    {
+                        if(response.player == ResourceHelper.Chosen.ONE)
+                        {
+                            Contestant._contestantOneScore = Contestant._contestantOneScore - retrieveData.value;
+                            lblContestantOneScore.Invalidate();
+                        }
+                        else if (response.player == ResourceHelper.Chosen.TWO)
+                        {
+                            Contestant._contestantTwoScore = Contestant._contestantTwoScore - retrieveData.value;
+                            lblContestantTwoScore.Invalidate();
+                        }
+                        else
+                        {
+                            Contestant._contestantThreeScore = Contestant._contestantThreeScore - retrieveData.value;
+                            lblContestantThreeScore.Invalidate();
+                        }
+                    }
+                }
+
+                // Remove Temp PictureBox
+                pictureBoxDup.Dispose();
             }
         }
 
         private void PicTimer_Tick(PictureBox pictureBoxDup)
         {
-            if(counter != 20)
+            if(counter != 1)
             {
-                // Get Width and Height of Form
-                int fWidth = this.Width;
-                int fHeight = this.Height;
-
-                //pictureBoxDup.Location = new Point(this.Location.X - pictureBoxDup.Size.Width / 2, this.Location.Y - pictureBoxDup.Size.Height/2);
-                pictureBoxDup.Size = new Size(pictureBoxDup.Size.Width + ((this.Width - pictureBoxDup.Size.Width) / 20), pictureBoxDup.Size.Height + ((this.Height - pictureBoxDup.Size.Height) / 20));
+                pictureBoxDup.Size = this.Size;
+                pictureBoxDup.Location = new Point(0, 0);
                 counter++;
             }
             else
@@ -170,6 +226,36 @@ namespace JTJeopardy
 
             LoadGameBoard();
         } 
+
+        private void lblContestantOne_Paint(object sender, PaintEventArgs e)
+        {
+            lblContestantOne.Text = Contestant._contestantOne;
+        }
+
+        private void lblContestantTwo_Paint(object sender, PaintEventArgs e)
+        {
+            lblContestantTwo.Text = Contestant._contestantTwo;
+        }
+
+        private void lblContestantThree_Paint(object sender, PaintEventArgs e)
+        {
+            lblContestantThree.Text = Contestant._contestantThree;
+        }
+
+        private void lblContestantOneScore_Paint(object sender, PaintEventArgs e)
+        {
+            lblContestantOneScore.Text = Contestant._contestantOneScore.ToString();
+        }
+
+        private void lblContestantTwoScore_Paint(object sender, PaintEventArgs e)
+        {
+            lblContestantTwoScore.Text = Contestant._contestantTwoScore.ToString();
+        }
+
+        private void lblContestantThreeScore_Paint(object sender, PaintEventArgs e)
+        {
+            lblContestantThreeScore.Text = Contestant._contestantThreeScore.ToString();
+        }
 
         #endregion
 
@@ -197,7 +283,6 @@ namespace JTJeopardy
         internal QandAs PrepareToSendToAlex(int row, int col, HostScreen screen)
         {
             QandAs result = findSelectionData(row, col);
-            //var questionResult = await Task.Run(() => screen.DataToAlex(result.answer, result.question));
 
             return result;
         }
@@ -211,6 +296,7 @@ namespace JTJeopardy
             data.question = "Who is JT?";
             data.row = row;
             data.col = col;
+            data.value = ResourceHelper.getValue(row);
 
             dataBank.Add(data);
         }
@@ -227,7 +313,7 @@ namespace JTJeopardy
                     {
                         PictureBox pictureBox = questions[row, col] as PictureBox;
                         pictureBox.Click += new EventHandler((sender, e) => AnswerClick(sender, e, row, col));
-                        AssignValue(pictureBox, row, settings.round);
+                        AssignValue(pictureBox, row, GameSettings.round);
 
                         return;
                     }
@@ -262,7 +348,7 @@ namespace JTJeopardy
         {
             List<int> questionLocations = Enumerable.Range(0, 30).ToList();
 
-            for (int i = 0; i < settings.boardQuestions; i++)
+            for (int i = 0; i < GameSettings.boardQuestions; i++)
             {
                 int r = questionLocations.OrderBy(bn => Guid.NewGuid()).FirstOrDefault();
                 questionLocations.Remove(r);
