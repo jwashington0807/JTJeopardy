@@ -113,7 +113,7 @@ namespace JTJeopardy
 
         async void AnswerClick(object sender, EventArgs e, int row, int col)
         {
-            bool correct = false;
+            bool finish = false;
 
             if (sender is PictureBox)
             {
@@ -155,14 +155,21 @@ namespace JTJeopardy
                 picTimer.Interval = 5;
                 picTimer.Start();
 
-                while (!correct)
+                // Set Question and Answer on Host Screen
+                hostScreen.InsertAnswerAndQuestion(retrieveData.answer, retrieveData.question);
+
+                while (!finish)
                 {
                     // Wait for Alex's Response
                     var response = await Task.Run(() => hostScreen.DataToAlexAsync(retrieveData.answer, retrieveData.question));
 
+                    if(response.player == ResourceHelper.Chosen.NONE)
+                    {
+                        finish = true;
+                    }
                     if (response.correct)
                     {
-                        correct = true;
+                        finish = true;
 
                         if (response.player == ResourceHelper.Chosen.ONE)
                         {

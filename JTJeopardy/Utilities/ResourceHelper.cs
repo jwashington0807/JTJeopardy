@@ -19,7 +19,8 @@ namespace JTJeopardy.Utilities
         {
             ONE,
             TWO,
-            THREE
+            THREE,
+            NONE
         }
 
         public static Image getImage(int i)
@@ -36,7 +37,6 @@ namespace JTJeopardy.Utilities
                 return Resources._800Square;
             else
                 return Resources._1000Square;
-
         }
 
         public static int getValue(int i)

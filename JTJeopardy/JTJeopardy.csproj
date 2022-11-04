@@ -111,6 +111,7 @@
     <Content Include="assets\600Square.png" />
     <Content Include="assets\800Square.png" />
     <Content Include="assets\blankBlue.png" />
+    <Content Include="assets\blueButton.png" />
     <Content Include="assets\blueSquare.png" />
     <Content Include="assets\gamebackground.png" />
     <Content Include="assets\StartButton.png" />

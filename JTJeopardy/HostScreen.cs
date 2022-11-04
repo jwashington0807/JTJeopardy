@@ -60,27 +60,6 @@ namespace JTJeopardy
 
         #endregion
 
-        private void timer_tick(object sender, EventArgs e)
-        {
-            angle += 2;
-            this.Refresh();
-        }
-
-        public bool WaitForStart()
-        {
-            // Stop rotationtimer
-            timer.Stop();
-
-            // Change the tab
-            this.tabControl1.Invoke(new Action(ChangeToStartScreen)); 
-
-            // Start Separate Thread
-            Task thread1 = Task.Factory.StartNew(() => ThreadProc());
-            Task.WaitAll(thread1);
-
-            return true;
-        }
-
         #region Wait Methods
 
         public ResourceHelper.ResponseData DataToAlexAsync(string answer, string question)
@@ -98,6 +77,27 @@ namespace JTJeopardy
             responseData.player = chosen;
 
             return responseData;
+        }
+
+        public void InsertAnswerAndQuestion(string answer, string question)
+        {
+            txtAnswerBox.Text = answer;
+            txtQuestionBox.Text = question;
+        }
+
+        public bool WaitForStart()
+        {
+            // Stop rotationtimer
+            timer.Stop();
+
+            // Change the tab
+            this.tabControl1.Invoke(new Action(ChangeToStartScreen));
+
+            // Start Separate Thread
+            Task thread1 = Task.Factory.StartNew(() => ThreadProc());
+            Task.WaitAll(thread1);
+
+            return true;
         }
 
         public static Bitmap RotateImage(Image image, float rotationAngle)
@@ -129,6 +129,12 @@ namespace JTJeopardy
         #endregion
 
         #region While Methods 
+
+        private void timer_tick(object sender, EventArgs e)
+        {
+            angle += 2;
+            this.Refresh();
+        }
 
         public void ThreadProc()
         {
@@ -189,6 +195,7 @@ namespace JTJeopardy
             chosen = Chosen.THREE;
             ChangeToAnswerScreen();
         }
+
         private void btnCorrect_Click(object sender, EventArgs e)
         {
             correct = true;
@@ -200,6 +207,14 @@ namespace JTJeopardy
         {
             correct = false;
             questioned = true;
+            ChangeToPrepScreen();
+        }
+
+        private void btn_NoAnswer_Click(object sender, EventArgs e)
+        {
+            chosen = Chosen.NONE;
+            questioned = true;
+            correct = false;
             ChangeToPrepScreen();
         }
 
