@@ -14,9 +14,10 @@ namespace JTJeopardy
 {
     public partial class MainMenu : Form
     {
-        GameScreen _gameScreen;
+        MainMenuControl control;
+        GameSettingsControl settings;
 
-        public MainMenu(GameScreen gameScreen)
+        public MainMenu()
         {
             // Minimizes "flicker" when resizing
             this.DoubleBuffered = true;
@@ -24,29 +25,18 @@ namespace JTJeopardy
             // Continues with OOB Initialization
             this.InitializeComponent();
 
-            // Get the instance of the GameScreen
-            _gameScreen = gameScreen;
+            // Initiate User Controls
+            control = new MainMenuControl(this);
+            settings = new GameSettingsControl(this);
+
+            // Add Control
+            this.Controls.Add(control);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        internal void SwitchToSettingsMenu()
         {
-            // Validation Steps
-            bool validation = false;
-
-            //Enter Validation 
-            
-
-            if (!validation)
-            {
-                _gameScreen.SetContestants(textBox1.Text, textBox2.Text, textBox3.Text);
-                _gameScreen.PhaseOneBegin();
-
-                this.Dispose();
-            }
-            else
-            {
-                // Show Validation Errors
-            }
+            this.Controls.Clear();
+            this.Controls.Add(settings);
         }
     }
 }

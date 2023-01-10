@@ -9,6 +9,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using JTJeopardy.Utilities;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Collections.Specialized;
 
 namespace JTJeopardy
 {
@@ -96,8 +99,8 @@ namespace JTJeopardy
 
         private void LoadMainScreen()
         {
-            mainScreen = new MainMenu(this);
-            mainScreen.Show();
+            //mainScreen = new MainMenu(this);
+            //mainScreen.Show();
         }
 
         private void LoadHostScreen()
@@ -334,6 +337,42 @@ namespace JTJeopardy
 
         private void AssignSpaces()
         {
+            string connectionString = string.Empty;
+            SqlConnection connection;
+
+            connectionString = ConfigurationManager.AppSettings["ConnectionString"];
+
+            if (!String.IsNullOrEmpty(connectionString)) {
+                using (connection = new SqlConnection(connectionString))
+                {
+                    try
+                    {
+                        connection.Open();
+
+                        SqlDataReader reader = null;
+
+                        SqlCommand command = new SqlCommand("", connection);
+                        reader = command.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+
+                        }
+                    }
+                    catch {
+
+                    }
+                    finally {
+
+                        // Close connection no matter what happens
+                        connection.Close();
+                    }
+
+                    
+                }
+            }
+
+
             int counter = 1;
 
             for (int col = 0; col < 6; col++)
